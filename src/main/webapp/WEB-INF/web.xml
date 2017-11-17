@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+
+	<!-- 세션에 대한 설정해준다.  -->
+<!-- 	<session-config> -->
+	<!-- 세션의 유지 시간을 설정해준다.  -->
+	<!-- 분당위로 설정 가능하다 여기서는 2분  -->
+<!-- 		<session-timeout>2</session-timeout>
+	</session-config> -->
+
+	<!-- 웹프로 젝트가 시작될때(이것또한 이벤트 발생의 종류) 혹은 종료될때 호출될 클래스를 설정할수 있도록 감지하는 리스너 클래스 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- /WEB-INF/spring/root-context.xml에서 만든 bean들이 프로젝트 전 지역에서 사용 가능하도록 해주는 설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- 여기서 설정해줬기 때문에 가능한 것이다. 경로 설정 -->
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+
+	<!-- 아래에서 맵핑한 것을 실제로 사용 하는 bean이다. Controller 역할을 함  -->
+	<!-- 특정 URL패턴에 따른 서블릿 설정 파일 위치 설정하는 코드 -->
+	<!-- /에 해당하는 요청이 오면 servlet-context.xml 파일에 있는 Controller가 처리하도록 설정하는 내용 -->
+	<servlet>
+		<!-- 서블릿의 이름을 지어준다  -->
+		<servlet-name>appServlet</servlet-name>
+		<!-- 서블릿의 근원이 되는 클래스 경로 DispatcherServlet 가 Controller 역할을 하는 것이다.  -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- servlet-context.xml 파일의 위치를 넣어준다.  -->
+		<init-param>
+			<!-- 파람감의 이름  -->
+			<param-name>contextConfigLocation</param-name>
+		<!-- servlet-context.xml 파일의 경로   -->
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		<!-- 서블릿이 요청을 찾을수 있도록 해주는 설정 -->
+	<servlet-mapping>
+		<!-- 어떤 서블릿이 처리 할지 정해준다 -->
+		<servlet-name>appServlet</servlet-name>
+		<!-- 어떤 URL 패턴으로 들어올때 찾을 것인지 정하는것 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+<!-- filter는 사용자의 요청을 처리가히 전이나 후에 동작하는 클래스  -->
+	<!-- post 방식에서 의 인토딩 설정 request.setChar~~ ("utf-8") 이거를 다해준다.  -->
+	<filter>
+	<!-- 필터 이름을 지어준다 -->
+	<filter-name>encoding</filter-name>
+	<!-- 필터를 만드는 설계도 클래스의 경로 -->
+	<!-- CharacterEncodingFilter 클래스의 bean이 실제로 인코딩을 해주는 것이다.  -->
+	<filter-class>
+		org.springframework.web.filter.CharacterEncodingFilter
+	</filter-class>
+	<init-param>
+		<param-name>encoding</param-name>
+		<!-- 어떤 인코딩을 할지 종류를 정해준다. -->
+		<param-value>UTF-8</param-value>
+	</init-param>
+</filter>
+
+<!-- 필터가 어떤 요청이 들어 올때 하는지 찾아주는 설정 -->
+<filter-mapping>
+	<!-- 처리해주는 필터이름 -->
+	<filter-name>encoding</filter-name>
+	<!-- /* 는 모든 요청이라고 보면 된다.  -->
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
+
+
+</web-app>
+

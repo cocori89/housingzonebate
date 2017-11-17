@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+	<!-- 메인 이미지 등록  -->
+	<insert id="insertMainGallery" parameterType="kr.co.housingzone.controller.domain.GallerymainVO" >
+		insert into gallerymain(subject,writer,mainfilename,regdate)
+		values(#{subject},#{writer},#{mainfilename},curdate())
+	</insert>
+	<!-- 첫등록 때만 사용 평면도와 상세 정보를 입력 하기 위함 메인이미지 기본키 가져오는 메서드 -->
+	<select id="selectMainNum" resultType="java.lang.Integer">
+		select max(num)
+		from gallerymain
+		where num
+	</select>
+
+	<!-- 평면도 사진 등록 -->
+	<insert id="insertPlanGallery" parameterType="kr.co.housingzone.controller.domain.GalleryplanVO">
+		insert into galleryplan(num,planfilename)
+		values(#{num},#{planfilename})
+	</insert>
+	<!-- 상세 사진 등록  -->
+	<insert id="insertDetilGallery" parameterType="kr.co.housingzone.controller.domain.GallerydetailVO">
+		insert into gallerydetail(num,detailfilename)
+		values(#{num},#{detailfilename})
+	</insert> 
+	
+	<!-- 갤러리 리스트 불러 오기  -->     
+	<select id="selectGalleryList" resultType="kr.co.housingzone.controller.domain.GallerymainVO">
+		select * 
+		from gallerymain
+	</select>
+	
+	<!-- 상세 보기시 정보 넘겨주기  -->
+	<select id="selectGalleryInfo" parameterType="java.lang.Integer" resultType="kr.co.housingzone.controller.domain.GallerymainVO">
+		select * 
+		from gallerymain
+		where num = #{num}
+	</select>
+	<!-- 갤러리  평먼도 -->
+	<select id="selectGalleryPlan" parameterType="java.lang.Integer" resultType="kr.co.housingzone.controller.domain.GalleryplanVO">
+		select * 
+		from galleryplan
+		where num = #{num}
+	</select>
+	<!-- 갤러리 상세 보기 불러 오기  -->
+	<select id="selectGalleryDetail" parameterType="java.lang.Integer" resultType="kr.co.housingzone.controller.domain.GallerydetailVO">
+		select * 
+		from gallerydetail
+		where num = #{num}
+	</select>
+	
+	<!-- 갤러리 메인 삭제 -->
+	<delete id="deleteGalleryMain" parameterType="java.lang.Integer">
+	delete from gallerymain
+	where num = #{num}
+	</delete>
+	<!-- 갤러리 메인 삭제를 파일 이름 얻기 -->
+	<select id="selectGallerMainFile" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select mainfilename
+	from gallerymain
+	where num = #{num}
+	</select>
+	<!--메인에서 갤러리 평면도 삭제를 위한 파일 이름 얻기 -->
+	<select id="selectGallerPlanFile" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select planfilename
+	from galleryplan
+	where num = #{num}
+	</select>
+	<!--메인에서 갤러리 상세사진 삭제를 위한 파일 이름 얻기 -->
+	<select id="selectGallerDetailFile" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select detailfilename
+	from gallerydetail
+	where num = #{num}
+	</select>
+	
+	
+	<!-- 갤러리 평면도 삭제 -->
+	<delete id="deleteGalleryPlan" parameterType="java.lang.Integer">
+	delete from galleryplan
+	where no= #{no}
+	</delete>
+	<!-- 갤러리 평면도 삭제 파일 이름 얻기-->
+	<select id="selectGallerPlanFileSingle" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select planfilename
+	from galleryplan
+	where no = #{no}
+	</select>
+	
+	
+	<!-- 갤러리 상세 사진 삭제 -->
+	<delete id="deleteGalleryDetail" parameterType="java.lang.Integer">
+	delete from gallerydetail
+	where no= #{no}
+	</delete>
+	<!-- 갤러리 상세 사진 삭제 파일 이름 얻기-->
+	<select id="selectGallerDetailFileSingle" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select detailfilename
+	from gallerydetail
+	where no = #{no}
+	</select>
+	
+
+</mapper>

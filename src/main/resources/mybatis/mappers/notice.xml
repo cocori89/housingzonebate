@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+
+	<!-- 공지사항 등록 SQL문 -->
+	<insert id="insertNotice" parameterType="kr.co.housingzone.controller.domain.NoticeVO">
+		insert into notice(subject,content,writer,regdate,ip)
+		values(#{subject},#{content},#{writer},curdate(),#{ip})
+	</insert>
+	
+	<!-- 공지사항에서 리스트 불러오는 SQL문 -->
+	<select id="selectList" resultType="kr.co.housingzone.controller.domain.NoticeVO">
+		select *
+		from notice
+	</select>
+	
+	<!-- 공지사항 상세 정보를 알기 위한 SQL문   -->
+	<select id="selectContent" parameterType="java.lang.Integer" resultType="kr.co.housingzone.controller.domain.NoticeVO">
+		select *
+		from notice
+		where no = #{no}
+	</select>	
+	
+	<delete id="deleteNotice" parameterType="java.lang.Integer">
+		delete from notice
+		where no = #{no}
+	</delete>
+	
+	<!-- 수정을 해주는 SQL문 -->
+	<update id="updateNotice" parameterType="kr.co.housingzone.controller.domain.NoticeVO">
+		update notice set subject=#{subject},content=#{content},writer=#{writer},regdate=curdate(),ip=#{ip}
+		where no = #{no}
+	</update>
+	
+</mapper>

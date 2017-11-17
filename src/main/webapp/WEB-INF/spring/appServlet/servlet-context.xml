@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- 60여가지의 어노테이션을 사용 가능 하게 해주는 설정으로 건들면 안되는 것이다. -->
+	<annotation-driven />
+
+	<!-- 링크를 설정할때 resources라고 입력하면 webapp디렉토리의 resources디렉토리에서 찾아서 연결하는 설정 -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+
+	<!-- 뷰리졸브 해주는 설정 -->
+	<!-- Controller 에서 리턴한 뷰 이름을 가지고 실제 출력될 뷰 파일을 선택하는 설정 앞에 redirect가 붙으면 이설정을 
+		적용하지 안습니다. -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" /><!-- 
+			이것을 뺴면 경로 출발이 webapp이된다. -->
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- @Controller, @Service, @Repository, @Component 어노테이션이 붙은 클래스의 객체 생성을 
+		자동으로 해주는 패키지 설정 -->
+	<context:component-scan base-package="kr.co.housingzone" />
+
+	<!-- 인터셉터 설정 -->
+	<!-- 인터셉터 클래스의 bean을 생성하는 것이다. -->
+	<beans:bean class="kr.co.housingzone.util.AuthenticationIntercepter" id="auto" />
+	
+	<!-- 인터셉터 등록 -->	
+	<interceptors>
+		<interceptor>
+			<!-- 인터셉터할 path 등록 -->
+			<mapping path="/admin/contentAdmin"/>
+			<mapping path="/admin/contactusContentAdmin"/>
+			<mapping path="/admin/galleryAdmin"/>
+			<mapping path="/admin/galleryContentAdmin"/>
+			<mapping path="/admin/galleryInsertAdmin"/>
+			<mapping path="/admin/mainAdmin"/>
+			<mapping path="/admin/noticeAdmin"/>
+			<mapping path="/admin/noticeInsert"/>
+			<mapping path="/admin/noticeUpdate"/>
+			<mapping path="/admin/contactus.html"/>
+			
+			<!-- 인터셉터하고 실행할 bean이 무엇인지 참조 한다.  -->
+			<!-- 메핑후 순서는 마지막에 써준다.  -->
+			<beans:ref bean="auto"/>
+		</interceptor>
+	</interceptors>	
+	
+	<!-- 파일 업로드를 하기 위한 빈추가 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 최대 업로드 파일 크기 설정(단위 : byte) -->
+		<!-- 일단은 이미지 파일 이기 때문에 최대한 적게 만든다.  -->
+		<beans:property name="maxUploadSize" value="52428800" /> <!-- 50MB -->
+		<!-- 메모리에 보관 있는 최대 파일 크기 설정 (단위 : byte) -->
+		<beans:property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+		<!-- 요청을 파싱 할때 케릭터셋 을 지정 하지 않았을 경우 사용 하는 인코딩 값  -->
+		<beans:property name="defaultEncoding" value="utf-8"/>
+	</beans:bean>
+
+
+	
+	
+</beans:beans>
