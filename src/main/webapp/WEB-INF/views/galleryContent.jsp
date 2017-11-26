@@ -19,7 +19,7 @@
 <div class="wrapper">
         <header>
             <div class="ci">
-				<a href="mainAdmin"><img
+				<a href="mainAdmin"><imgasdas
 					src="${pageContext.request.contextPath}/resources/img/ci/ci.png"
 					alt="" class="logoimg"></a>
 			</div>

@@ -18,7 +18,6 @@
 </head>
 
 <body>
-안녕하세요 
   <div class="wrapper">
     <header>
       <div class="ci">
