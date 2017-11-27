@@ -15,7 +15,6 @@
 </head>
 
 
-
 <div class="wrapper">
         <header>
             <div class="ci">
@@ -41,7 +40,7 @@
                 <h1>시공사진</h1>
                 <table class="noticeView">
 					 <tr>
-                        <th class="title" colspan="2"> <a style="color : red;" href="galleryMainDelete?num=${num}">겔러리 사진 삭제</a></th>
+                        <th class="title" colspan="2"> <a style="color : red;" onClick="delMain(${num})">겔러리 사진 삭제</a></th>
                     </tr> 
                     <tr>
                         <th class="title">제목</th>
@@ -59,7 +58,7 @@
                        	<c:forEach var="pList" items="${planList}">
                         <td class="contents">
                             <img src="${pageContext.request.contextPath}/resources/gallery/plan/${pList.planfilename}" width="500px" alt="도면" height="400px" class="contents_img"/>
-                            <a style="color : red;" href="galleryPlanDelete?no=${pList.no }&num=${num}">평면도삭제</a>
+                            <a style="color : red;" onclick="delPlan(${pList.no},${num})">평면도삭제</a>
                         </td>
 						</c:forEach>
                     </tr>
@@ -71,7 +70,7 @@
                             <div class="btn_img"><img src="${pageContext.request.contextPath}/resources/img/5.JPG" alt="" class="btn1_img">
 							<c:forEach var="dList" items="${detailList}">
                                 <img src="${pageContext.request.contextPath}/resources/gallery/detail/${dList.detailfilename}" alt="" class="btn1_img">
-								<a style="color : red;" href="galleryDetailDelete?no=${dList.no }&num=${num}">상세사진삭제</a>
+								<a style="color : red;" onclick="delDetail(${dList.no },${num})">상세사진삭제</a>
 							</c:forEach>
                             </div>
                         </td>
@@ -107,6 +106,31 @@
             $('.btn1_img').toggle();
         } );
     })
+
+</script>
+
+<!-- 갤러리 삭제 -->
+<script type="text/javascript">
+function delMain(num){
+	alert("test");
+	var del = confirm("갤러리 게시물과 이미지 모두 삭제 하시겠습니까?");
+	if(del){
+		location.href="galleryMainDelete?num="+num;
+	}
+}
+
+function delPlan(no,num){
+	var del = confirm("선택한 평면도 이미지를 삭제 하시겠습니까?");
+	if(del){
+		location.href="galleryPlanDelete?no="+no+"&num="+num;
+	}
+}
+function delDetail(no,num){
+	var del = confirm("선택한 상세 정보 이미지 삭제 하시겠습니까?");
+	if(del){
+		location.href="galleryDetailDelete?no="+no+"&num="+num;
+	}
+}
 
 </script>
 

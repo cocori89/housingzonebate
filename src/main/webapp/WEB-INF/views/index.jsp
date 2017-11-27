@@ -31,7 +31,6 @@
           <li class="gallery"><a href="gallery.html">GALLERY</a></li>
           <li class="contactus"><a href="contactus.html">CONTACT US</a></li>
           <li class="board"><a href="board.html">BOARD</a></li>
-          <li class="band"><a href="band.html">BAND</a></li>
         </ul>
       </nav>
     </header>

@@ -14,6 +14,17 @@
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
+<script type="text/javascript">
+/*공지사항 삭제 */
+function delNotice(no){
+	var del = confirm("공지사항을 삭제 하시 겠습니까?")
+	if(del){
+		location.href ="delete?no="+no
+	}
+}
+</script>
+
+
 </head>
 <body>
 	<div class="wrapper">
@@ -50,7 +61,7 @@
 							<td><a href="contentAdmin?no=${notice.no}">${notice.subject}</a></td>
 							<td>${notice.writer}</td>
 							<td>${notice.regdate}</td>
-							<th><a href="delete?no=${notice.no}">글삭제</a></th>
+							<th><a onclick="delNotice(${notice.no})">글삭제</a></th>
 							
 						</tr>
 					</c:forEach>
